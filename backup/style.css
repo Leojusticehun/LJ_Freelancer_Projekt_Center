@@ -215,7 +215,7 @@ body::after{
     top:-40px;
     width:640px;
     height:640px;
-    background-image:url("assets/images/supernova_transparent.webp");
+    background-image:url("assets/images/supernova_transparent.png");
     animation:none;
 
     -webkit-mask-image:
@@ -246,7 +246,7 @@ body::after{
     top:45px;
     width:620px;
     height:450px;
-    background-image:url("assets/images/black_hole_transparent.webp");
+    background-image:url("assets/images/black_hole_transparent.png");
     animation:none;
 
     -webkit-mask-image:
@@ -277,7 +277,7 @@ body::after{
     bottom:18px;
     width:350px;
     height:350px;
-    background-image:url("assets/images/planet_blue_transparent.webp");
+    background-image:url("assets/images/planet_blue_transparent.png");
 }
 
 .planet-blue::before{
@@ -292,7 +292,7 @@ body::after{
     bottom:50px;
     width:347px;
     height:347px;
-    background-image:url("assets/images/planet_gold_transparent.webp");
+    background-image:url("assets/images/planet_gold_transparent.png");
 }
 
 .planet-gold::before{

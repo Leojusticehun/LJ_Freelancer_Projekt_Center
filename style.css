@@ -48,7 +48,7 @@ body::after{
     animation:gateBreath 12s ease-in-out infinite;
 }
 
-/* ORBITAL SYSTEM 6.0 - PORTFOLIO GRADE */
+/* ORBITAL SYSTEM 6.1 - PORTFOLIO POLISH */
 .orbital-system{
     position:absolute;
     inset:0;
@@ -59,20 +59,9 @@ body::after{
     will-change:transform;
 }
 
-.orbital-outer{
-    inset:-3%;
-    animation:orbitOuterSystem 62s linear infinite;
-}
-
-.orbital-middle{
-    inset:7%;
-    animation:orbitMiddleSystem 38s linear infinite reverse;
-}
-
-.orbital-inner{
-    inset:19%;
-    animation:orbitInnerSystem 27s linear infinite;
-}
+.orbital-outer{inset:-1.5%;animation:orbitOuterSystem 68s linear infinite}
+.orbital-middle{inset:8.5%;animation:orbitMiddleSystem 42s linear infinite reverse}
+.orbital-inner{inset:22%;animation:orbitInnerSystem 31s linear infinite}
 
 .orbital-body,
 .meteor,
@@ -83,88 +72,70 @@ body::after{
     pointer-events:none;
 }
 
-/* MINI PLANETS */
 .orbital-body{
-    width:18px;
-    height:18px;
+    width:16px;
+    height:16px;
     transform:translate3d(-50%,-50%,0);
     box-shadow:
-        0 0 14px currentColor,
-        0 0 26px currentColor,
-        inset -5px -5px 7px rgba(0,0,0,.48),
-        inset 3px 3px 5px rgba(255,255,255,.28);
+        0 0 10px currentColor,
+        0 0 22px currentColor,
+        inset -5px -5px 8px rgba(0,0,0,.52),
+        inset 3px 3px 5px rgba(255,255,255,.26);
 }
 
 .orbital-body::before{
     content:"";
     position:absolute;
-    inset:-7px;
+    inset:-9px;
     border-radius:50%;
-    background:radial-gradient(circle, currentColor 0%, transparent 62%);
-    opacity:.18;
-    filter:blur(3px);
+    background:radial-gradient(circle,currentColor 0%,transparent 64%);
+    opacity:.16;
+    filter:blur(4px);
 }
 
 .orbital-body::after{
     content:"";
     position:absolute;
-    left:18%;
-    top:16%;
-    width:26%;
-    height:22%;
+    left:19%;
+    top:17%;
+    width:24%;
+    height:21%;
     border-radius:50%;
-    background:rgba(255,255,255,.55);
+    background:rgba(255,255,255,.52);
     filter:blur(1px);
 }
 
 .body-gold{
-    left:50%;
-    top:1%;
-    color:rgba(255,218,112,.95);
-    background:
-        radial-gradient(circle at 32% 30%,#fff3b0 0%,#f8b84d 34%,#a45620 68%,#3b1607 100%);
+    left:50%;top:3%;
+    color:rgba(255,220,125,.92);
+    background:radial-gradient(circle at 32% 30%,#fff2af 0%,#f4b54c 35%,#93491d 69%,#2b1006 100%);
 }
-
 .body-blue{
-    left:86%;
-    top:27%;
-    color:rgba(95,225,255,.95);
-    background:
-        radial-gradient(circle at 34% 28%,#e3fcff 0%,#38cfff 34%,#075fa0 66%,#021936 100%);
+    left:84%;top:29%;
+    color:rgba(95,225,255,.92);
+    background:radial-gradient(circle at 34% 28%,#e6fdff 0%,#35c8f5 35%,#07598f 67%,#02172e 100%);
 }
-
 .body-red{
-    left:19%;
-    top:73%;
-    color:rgba(255,118,74,.95);
-    background:
-        radial-gradient(circle at 35% 30%,#ffd6a8 0%,#ff7042 36%,#8a2314 70%,#260705 100%);
+    left:20%;top:71%;
+    color:rgba(255,120,78,.90);
+    background:radial-gradient(circle at 35% 30%,#ffd5a5 0%,#f36d43 37%,#762214 70%,#220604 100%);
 }
-
 .body-violet{
-    left:66%;
-    top:92%;
-    color:rgba(202,162,255,.92);
-    background:
-        radial-gradient(circle at 35% 30%,#f1e2ff 0%,#9e62ff 42%,#4a1a95 72%,#140528 100%);
+    left:65%;top:90%;
+    color:rgba(202,162,255,.88);
+    background:radial-gradient(circle at 35% 30%,#efe1ff 0%,#9b60ee 43%,#441785 73%,#120424 100%);
 }
 
 /* METEOR BELT */
 .meteor{
-    width:16px;
-    height:5px;
+    width:14px;
+    height:4px;
     border-radius:999px;
     transform:translate3d(-50%,-50%,0);
-    background:
-        linear-gradient(90deg,
-            transparent 0%,
-            rgba(255,225,160,.08) 18%,
-            rgba(255,225,160,.65) 58%,
-            rgba(255,245,210,.95) 100%);
-    box-shadow:
-        0 0 8px rgba(255,210,120,.55),
-        0 0 18px rgba(255,120,60,.22);
-    filter:blur(.15px);
+    background:linear-gradient(90deg,transparent 0%,rgba(255,225,160,.06) 18%,rgba(255,225,160,.48) 58%,rgba(255,245,210,.82) 100%);
+    box-shadow:0 0 7px rgba(255,210,120,.40),0 0 14px rgba(255,120,60,.16);
+    filter:blur(.2px);
+    opacity:.82;
 }
 
 .meteor::after{
@@ -172,55 +143,54 @@ body::after{
     position:absolute;
     right:-2px;
     top:50%;
-    width:5px;
-    height:5px;
+    width:4px;
+    height:4px;
     border-radius:50%;
-    background:rgba(255,245,210,.95);
+    background:rgba(255,245,210,.88);
     transform:translateY(-50%);
-    box-shadow:0 0 10px rgba(255,230,170,.75);
+    box-shadow:0 0 8px rgba(255,230,170,.55);
 }
 
-.meteor-one{left:20%;top:18%;transform:translate3d(-50%,-50%,0) rotate(18deg)}
-.meteor-two{left:78%;top:22%;transform:translate3d(-50%,-50%,0) rotate(-12deg)}
-.meteor-three{left:92%;top:58%;transform:translate3d(-50%,-50%,0) rotate(28deg)}
-.meteor-four{left:36%;top:88%;transform:translate3d(-50%,-50%,0) rotate(-22deg)}
-.meteor-five{left:13%;top:47%;transform:translate3d(-50%,-50%,0) rotate(42deg)}
-.meteor-six{left:72%;top:78%;transform:translate3d(-50%,-50%,0) rotate(-35deg)}
+.meteor-one{left:21%;top:20%;transform:translate3d(-50%,-50%,0) rotate(18deg)}
+.meteor-two{left:77%;top:24%;transform:translate3d(-50%,-50%,0) rotate(-12deg)}
+.meteor-three{left:90%;top:58%;transform:translate3d(-50%,-50%,0) rotate(28deg)}
+.meteor-four{left:37%;top:86%;transform:translate3d(-50%,-50%,0) rotate(-22deg)}
+.meteor-five{left:15%;top:48%;transform:translate3d(-50%,-50%,0) rotate(42deg)}
+.meteor-six{left:71%;top:77%;transform:translate3d(-50%,-50%,0) rotate(-35deg)}
 
 /* INNER PARTICLES */
 .micro-body{
-    width:6px;
-    height:6px;
+    width:5px;
+    height:5px;
     transform:translate3d(-50%,-50%,0);
-    background:rgba(210,245,255,.90);
-    box-shadow:
-        0 0 8px rgba(0,225,255,.50),
-        0 0 16px rgba(0,225,255,.18);
+    background:rgba(210,245,255,.82);
+    box-shadow:0 0 7px rgba(0,225,255,.38),0 0 14px rgba(0,225,255,.14);
+    opacity:.86;
 }
 
-.micro-one{left:50%;top:3%}
-.micro-two{
-    left:88%;
-    top:45%;
-    background:rgba(255,222,142,.86);
-    box-shadow:0 0 9px rgba(255,190,80,.44);
+.micro-one{left:50%;top:5%}
+.micro-two{left:86%;top:45%;background:rgba(255,222,142,.80);box-shadow:0 0 8px rgba(255,190,80,.34)}
+.micro-three{left:29%;top:82%;background:rgba(184,150,255,.80);box-shadow:0 0 8px rgba(150,90,255,.32)}
+.micro-four{left:12%;top:39%;background:rgba(255,160,90,.76);box-shadow:0 0 8px rgba(255,110,50,.30)}
+.micro-five{left:67%;top:16%}
+
+/* GATE RING - RESTORED */
+.gate-ring{
+    position:absolute;
+    width:100%;
+    height:100%;
+    border:2px solid rgba(255,205,92,.95);
+    border-radius:50%;
+    box-shadow:
+        0 0 24px rgba(255,190,75,.95),
+        0 0 72px rgba(255,117,35,.36),
+        0 0 32px rgba(0,190,255,.18),
+        inset 0 0 42px rgba(255,220,130,.48);
+    animation:gatePulse 5.8s infinite ease-in-out;
+    will-change:transform,opacity,box-shadow;
+    transform:translate3d(0,0,0);
 }
-.micro-three{
-    left:27%;
-    top:84%;
-    background:rgba(184,150,255,.86);
-    box-shadow:0 0 9px rgba(150,90,255,.40);
-}
-.micro-four{
-    left:9%;
-    top:38%;
-    background:rgba(255,160,90,.82);
-    box-shadow:0 0 9px rgba(255,110,50,.38);
-}
-.micro-five{
-    left:68%;
-    top:14%;
-}
+
 .gate-ring::before,.gate-ring::after{
     content:"";position:absolute;inset:30px;border:1px dashed rgba(255,238,174,.56);border-radius:50%;
     animation:rotate 24s linear infinite;will-change:transform;

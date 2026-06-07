@@ -4,6 +4,8 @@ const ctx = canvas.getContext("2d", { alpha: false, desynchronized: true });
 let stars = [];
 let dustStars = [];
 let nebulaClouds = [];
+let dataStreams = [];
+
 let width = 0;
 let height = 0;
 
@@ -17,11 +19,13 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
 
 const PERFORMANCE = {
     targetFps: prefersReducedMotion ? 20 : 26,
-    nebulaRefreshMs: prefersReducedMotion ? 1800 : 1200,
-    starCount: 1900,
-    dustQuality: 0.26,
-    dustDrawStep: 4,
+    nebulaRefreshMs: prefersReducedMotion ? 2200 : 1500,
+    starCount: 2600,
+    dustQuality: 0.12,
+    dustDrawStep: 5,
     starDrawStep: 2,
+    dataStreamCount: prefersReducedMotion ? 10 : 22,
+    dataStreamDrawStep: 2,
     portalDrawStep: prefersReducedMotion ? 4 : 3,
     maxPortalDpr: 1.0,
     resizeDelayMs: 220
@@ -42,24 +46,24 @@ function createStar(x, y, localBoost = 1) {
     let speed;
     let depth;
 
-    if (sizeRoll < 0.91) {
-        radius = Math.random() * 0.36 + 0.055;
-        alpha = Math.random() * 0.38 + 0.17;
-        speed = Math.random() * 0.014 + 0.003;
+    if (sizeRoll < 0.90) {
+        radius = Math.random() * 0.34 + 0.055;
+        alpha = Math.random() * 0.36 + 0.16;
+        speed = Math.random() * 0.012 + 0.003;
         depth = 0.30;
     } else if (sizeRoll < 0.988) {
-        radius = Math.random() * 0.72 + 0.24;
+        radius = Math.random() * 0.70 + 0.24;
         alpha = Math.random() * 0.42 + 0.24;
-        speed = Math.random() * 0.030 + 0.007;
+        speed = Math.random() * 0.028 + 0.006;
         depth = 0.60;
     } else {
         radius = Math.random() * 1.05 + 0.50;
         alpha = Math.random() * 0.32 + 0.36;
-        speed = Math.random() * 0.050 + 0.012;
+        speed = Math.random() * 0.046 + 0.010;
         depth = 1.0;
     }
 
-    const warmStar = Math.random() < 0.16;
+    const warmStar = Math.random() < 0.15;
 
     return {
         x,
@@ -69,7 +73,7 @@ function createStar(x, y, localBoost = 1) {
         depth,
         baseAlpha: alpha,
         twinkle: Math.random() * Math.PI * 2,
-        twinkleSpeed: Math.random() * 0.008 + 0.002,
+        twinkleSpeed: Math.random() * 0.007 + 0.002,
         color: warmStar
             ? { r: 255, g: 214, b: 145 }
             : { r: 185, g: 238, b: 255 }
@@ -82,7 +86,7 @@ function createDustCluster(cx, cy, spreadX, spreadY, count, warmBias = 0.5) {
 
     for (let i = 0; i < finalCount; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const distance = Math.pow(Math.random(), 0.62);
+        const distance = Math.pow(Math.random(), 0.66);
 
         const x = cx + Math.cos(angle) * spreadX * distance;
         const y = cy + Math.sin(angle) * spreadY * distance;
@@ -92,12 +96,12 @@ function createDustCluster(cx, cy, spreadX, spreadY, count, warmBias = 0.5) {
         cluster.push({
             x,
             y,
-            radius: Math.random() * 0.38 + 0.04,
-            baseAlpha: Math.random() * 0.24 + 0.08,
+            radius: Math.random() * 0.34 + 0.035,
+            baseAlpha: Math.random() * 0.20 + 0.055,
             twinkle: Math.random() * Math.PI * 2,
-            twinkleSpeed: Math.random() * 0.007 + 0.002,
-            driftX: (Math.random() - 0.5) * 0.006,
-            driftY: (Math.random() - 0.5) * 0.006,
+            twinkleSpeed: Math.random() * 0.006 + 0.002,
+            driftX: (Math.random() - 0.5) * 0.004,
+            driftY: (Math.random() - 0.5) * 0.004,
             color: warm
                 ? { r: 255, g: 185, b: 100 }
                 : { r: 165, g: 220, b: 255 }
@@ -105,6 +109,43 @@ function createDustCluster(cx, cy, spreadX, spreadY, count, warmBias = 0.5) {
     }
 
     return cluster;
+}
+
+function createDataStream() {
+    const side = Math.random();
+
+    let startX;
+    let startY;
+    let endX;
+    let endY;
+
+    if (side < 0.5) {
+        startX = Math.random() * width * 0.42;
+        startY = Math.random() * height;
+        endX = width * (0.40 + Math.random() * 0.20);
+        endY = height * (0.38 + Math.random() * 0.24);
+    } else {
+        startX = width * (0.58 + Math.random() * 0.42);
+        startY = Math.random() * height;
+        endX = width * (0.42 + Math.random() * 0.20);
+        endY = height * (0.38 + Math.random() * 0.24);
+    }
+
+    const cyan = Math.random() < 0.72;
+
+    return {
+        startX,
+        startY,
+        endX,
+        endY,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.006 + 0.002,
+        width: Math.random() * 0.8 + 0.35,
+        alpha: Math.random() * 0.030 + 0.010,
+        color: cyan
+            ? { r: 0, g: 225, b: 255 }
+            : { r: 255, g: 205, b: 92 }
+    };
 }
 
 function resizeCanvas() {
@@ -124,30 +165,28 @@ function resizeCanvas() {
     );
 
     dustStars = [
-        ...createDustCluster(width * 0.22, height * 0.22, width * 0.30, height * 0.25, 1300 * qualityMultiplier, 0.38),
-        ...createDustCluster(width * 0.78, height * 0.22, width * 0.34, height * 0.27, 1400 * qualityMultiplier, 0.72),
-        ...createDustCluster(width * 0.16, height * 0.76, width * 0.22, height * 0.18, 520 * qualityMultiplier, 0.28),
-        ...createDustCluster(width * 0.79, height * 0.76, width * 0.22, height * 0.18, 520 * qualityMultiplier, 0.76),
-        ...createDustCluster(width * 0.50, height * 0.48, width * 0.44, height * 0.34, 820 * qualityMultiplier, 0.48),
-        ...createDustCluster(width * 0.50, height * 0.20, width * 0.50, height * 0.16, 650 * qualityMultiplier, 0.50),
-        ...createDustCluster(width * 0.50, height * 0.86, width * 0.52, height * 0.15, 520 * qualityMultiplier, 0.46)
+        ...createDustCluster(width * 0.18, height * 0.20, width * 0.26, height * 0.22, 900 * qualityMultiplier, 0.38),
+        ...createDustCluster(width * 0.80, height * 0.20, width * 0.30, height * 0.25, 900 * qualityMultiplier, 0.72),
+        ...createDustCluster(width * 0.16, height * 0.78, width * 0.20, height * 0.16, 360 * qualityMultiplier, 0.28),
+        ...createDustCluster(width * 0.82, height * 0.78, width * 0.20, height * 0.16, 360 * qualityMultiplier, 0.76),
+        ...createDustCluster(width * 0.50, height * 0.52, width * 0.32, height * 0.28, 420 * qualityMultiplier, 0.48)
     ];
 
     nebulaClouds = [
-        { x: width * 0.18, y: height * 0.18, r: width * 0.42, color: [140, 40, 255], alpha: 0.10 },
-        { x: width * 0.26, y: height * 0.24, r: width * 0.28, color: [255, 70, 40], alpha: 0.052 },
-        { x: width * 0.28, y: height * 0.16, r: width * 0.22, color: [90, 130, 255], alpha: 0.034 },
+        { x: width * 0.15, y: height * 0.18, r: width * 0.36, color: [140, 40, 255], alpha: 0.055 },
+        { x: width * 0.24, y: height * 0.25, r: width * 0.24, color: [255, 70, 40], alpha: 0.034 },
+        { x: width * 0.28, y: height * 0.18, r: width * 0.20, color: [90, 130, 255], alpha: 0.026 },
 
-        { x: width * 0.78, y: height * 0.20, r: width * 0.46, color: [255, 115, 30], alpha: 0.10 },
-        { x: width * 0.72, y: height * 0.26, r: width * 0.26, color: [255, 170, 40], alpha: 0.045 },
-        { x: width * 0.70, y: height * 0.15, r: width * 0.20, color: [60, 110, 255], alpha: 0.030 },
+        { x: width * 0.80, y: height * 0.20, r: width * 0.40, color: [255, 115, 30], alpha: 0.052 },
+        { x: width * 0.72, y: height * 0.26, r: width * 0.24, color: [255, 170, 40], alpha: 0.030 },
+        { x: width * 0.70, y: height * 0.15, r: width * 0.20, color: [60, 110, 255], alpha: 0.020 },
 
-        { x: width * 0.14, y: height * 0.82, r: width * 0.26, color: [0, 120, 255], alpha: 0.070 },
-        { x: width * 0.82, y: height * 0.82, r: width * 0.24, color: [255, 170, 35], alpha: 0.060 },
-
-        { x: width * 0.50, y: height * 0.47, r: width * 0.50, color: [0, 180, 255], alpha: 0.038 },
-        { x: width * 0.50, y: height * 0.50, r: width * 0.75, color: [0, 80, 150], alpha: 0.022 }
+        { x: width * 0.50, y: height * 0.50, r: width * 0.52, color: [0, 130, 180], alpha: 0.016 }
     ];
+
+    dataStreams = Array.from({ length: Math.round(PERFORMANCE.dataStreamCount * qualityMultiplier) }, () =>
+        createDataStream()
+    );
 }
 
 /* BACKGROUND BUFFER */
@@ -164,8 +203,8 @@ function renderNebulaToBuffer(time) {
         Math.max(width, height)
     );
 
-    gradient.addColorStop(0, "#030817");
-    gradient.addColorStop(0.45, "#01040d");
+    gradient.addColorStop(0, "#020716");
+    gradient.addColorStop(0.42, "#01040c");
     gradient.addColorStop(1, "#000000");
 
     backgroundCtx.globalCompositeOperation = "source-over";
@@ -176,8 +215,8 @@ function renderNebulaToBuffer(time) {
     backgroundCtx.globalCompositeOperation = "screen";
 
     for (const cloud of nebulaClouds) {
-        const driftX = prefersReducedMotion ? 0 : Math.sin(t * 0.018 + cloud.x * 0.001) * 10;
-        const driftY = prefersReducedMotion ? 0 : Math.cos(t * 0.016 + cloud.y * 0.001) * 7;
+        const driftX = prefersReducedMotion ? 0 : Math.sin(t * 0.014 + cloud.x * 0.001) * 8;
+        const driftY = prefersReducedMotion ? 0 : Math.cos(t * 0.012 + cloud.y * 0.001) * 5;
 
         const cloudGradient = backgroundCtx.createRadialGradient(
             cloud.x + driftX,
@@ -189,8 +228,8 @@ function renderNebulaToBuffer(time) {
         );
 
         cloudGradient.addColorStop(0, `rgba(${cloud.color[0]}, ${cloud.color[1]}, ${cloud.color[2]}, ${cloud.alpha})`);
-        cloudGradient.addColorStop(0.40, `rgba(${cloud.color[0]}, ${cloud.color[1]}, ${cloud.color[2]}, ${cloud.alpha * 0.34})`);
-        cloudGradient.addColorStop(0.76, `rgba(${cloud.color[0]}, ${cloud.color[1]}, ${cloud.color[2]}, ${cloud.alpha * 0.085})`);
+        cloudGradient.addColorStop(0.42, `rgba(${cloud.color[0]}, ${cloud.color[1]}, ${cloud.color[2]}, ${cloud.alpha * 0.30})`);
+        cloudGradient.addColorStop(0.78, `rgba(${cloud.color[0]}, ${cloud.color[1]}, ${cloud.color[2]}, ${cloud.alpha * 0.070})`);
         cloudGradient.addColorStop(1, "rgba(0,0,0,0)");
 
         backgroundCtx.fillStyle = cloudGradient;
@@ -203,30 +242,30 @@ function renderNebulaToBuffer(time) {
 }
 
 function drawSubtleCyberGridToBuffer(t) {
-    const gap = width < 780 ? 120 : 160;
-    const opacity = width < 780 ? 0.004 : 0.007;
+    const gap = width < 780 ? 140 : 190;
+    const opacity = width < 780 ? 0.003 : 0.005;
 
     backgroundCtx.save();
     backgroundCtx.globalCompositeOperation = "screen";
 
     for (let x = -gap; x < width + gap; x += gap) {
-        const drift = Math.sin(t * 0.018 + x * 0.01) * 5;
+        const drift = Math.sin(t * 0.014 + x * 0.01) * 4;
 
         backgroundCtx.beginPath();
         backgroundCtx.moveTo(x + drift, 0);
-        backgroundCtx.lineTo(x - drift * 0.5, height);
+        backgroundCtx.lineTo(x - drift * 0.45, height);
         backgroundCtx.strokeStyle = `rgba(0, 210, 255, ${opacity})`;
         backgroundCtx.lineWidth = 1;
         backgroundCtx.stroke();
     }
 
     for (let y = -gap; y < height + gap; y += gap) {
-        const drift = Math.cos(t * 0.016 + y * 0.01) * 4;
+        const drift = Math.cos(t * 0.012 + y * 0.01) * 3;
 
         backgroundCtx.beginPath();
         backgroundCtx.moveTo(0, y + drift);
-        backgroundCtx.lineTo(width, y - drift * 0.5);
-        backgroundCtx.strokeStyle = `rgba(160, 70, 255, ${opacity * 0.50})`;
+        backgroundCtx.lineTo(width, y - drift * 0.45);
+        backgroundCtx.strokeStyle = `rgba(160, 70, 255, ${opacity * 0.45})`;
         backgroundCtx.lineWidth = 1;
         backgroundCtx.stroke();
     }
@@ -234,20 +273,87 @@ function drawSubtleCyberGridToBuffer(t) {
     backgroundCtx.restore();
 }
 
+/* DIGITAL DEEP SPACE DATA STREAMS */
+
+function drawDataStreams(time) {
+    if (prefersReducedMotion) return;
+
+    const t = time * 0.001;
+    const streamFrame = frameCounter % PERFORMANCE.dataStreamDrawStep;
+
+    ctx.save();
+    ctx.globalCompositeOperation = "screen";
+
+    for (let i = 0; i < dataStreams.length; i++) {
+        if (i % PERFORMANCE.dataStreamDrawStep !== streamFrame) continue;
+
+        const stream = dataStreams[i];
+        stream.phase += stream.speed;
+
+        const pulse = 0.55 + Math.sin(t * 0.8 + stream.phase) * 0.35;
+        const alpha = stream.alpha * pulse;
+
+        const midX = (stream.startX + stream.endX) / 2 + Math.sin(stream.phase) * 38;
+        const midY = (stream.startY + stream.endY) / 2 + Math.cos(stream.phase * 0.8) * 28;
+
+        const gradient = ctx.createLinearGradient(stream.startX, stream.startY, stream.endX, stream.endY);
+        gradient.addColorStop(0, `rgba(${stream.color.r}, ${stream.color.g}, ${stream.color.b}, 0)`);
+        gradient.addColorStop(0.48, `rgba(${stream.color.r}, ${stream.color.g}, ${stream.color.b}, ${alpha})`);
+        gradient.addColorStop(1, `rgba(${stream.color.r}, ${stream.color.g}, ${stream.color.b}, 0)`);
+
+        ctx.beginPath();
+        ctx.moveTo(stream.startX, stream.startY);
+        ctx.quadraticCurveTo(midX, midY, stream.endX, stream.endY);
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = stream.width;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = `rgba(${stream.color.r}, ${stream.color.g}, ${stream.color.b}, ${alpha * 2})`;
+        ctx.stroke();
+
+        if (Math.random() < 0.003) {
+            stream.startX = Math.random() * width;
+            stream.startY = Math.random() * height;
+            stream.endX = width * (0.42 + Math.random() * 0.16);
+            stream.endY = height * (0.40 + Math.random() * 0.20);
+        }
+    }
+
+    ctx.restore();
+    ctx.shadowBlur = 0;
+}
+
 /* DRAWING */
+
+function applyBlackHoleGravity(star) {
+    const blackHoleX = width * 0.83;
+    const blackHoleY = height * 0.18;
+
+    const dx = blackHoleX - star.x;
+    const dy = blackHoleY - star.y;
+    const distSq = dx * dx + dy * dy;
+    const influenceRadius = width * 0.22;
+    const influenceSq = influenceRadius * influenceRadius;
+
+    if (distSq > influenceSq || distSq < 1) return;
+
+    const strength = (1 - distSq / influenceSq) * 0.010 * star.depth;
+
+    star.x += dx * strength;
+    star.y += dy * strength * 0.35;
+}
 
 function drawStarPoint(star, isDust = false) {
     star.twinkle += star.twinkleSpeed;
 
     const finalAlpha = Math.max(
-        0.040,
-        Math.min(1, star.baseAlpha + Math.sin(star.twinkle) * (isDust ? 0.045 : 0.060))
+        0.038,
+        Math.min(1, star.baseAlpha + Math.sin(star.twinkle) * (isDust ? 0.040 : 0.055))
     );
 
     ctx.beginPath();
     ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
 
-    ctx.shadowBlur = star.radius > 1.05 ? 3 : 1.1;
+    ctx.shadowBlur = star.radius > 1.05 ? 3 : 1.0;
     ctx.shadowColor = `rgba(${star.color.r}, ${star.color.g}, ${star.color.b}, ${finalAlpha})`;
     ctx.fillStyle = `rgba(${star.color.r}, ${star.color.g}, ${star.color.b}, ${finalAlpha})`;
     ctx.fill();
@@ -264,6 +370,8 @@ function drawStars(time) {
 
     ctx.globalCompositeOperation = "source-over";
     ctx.drawImage(backgroundCanvas, 0, 0);
+
+    drawDataStreams(time);
 
     const dustFrame = frameCounter % PERFORMANCE.dustDrawStep;
     const starFrame = frameCounter % PERFORMANCE.starDrawStep;
@@ -292,7 +400,9 @@ function drawStars(time) {
         }
 
         star.y += star.speed;
-        star.x += Math.sin(t * 0.045 + star.y * 0.002) * 0.003 * star.depth;
+        star.x += Math.sin(t * 0.040 + star.y * 0.002) * 0.0028 * star.depth;
+
+        applyBlackHoleGravity(star);
 
         if (star.y > height + 5) {
             star.y = -5;
@@ -375,6 +485,44 @@ function drawLiquidRing(cx, cy, baseRadius, amplitude, time, phase, alpha) {
     portalCtx.stroke();
 }
 
+function drawPortalHexGrid(cx, cy, radius, time) {
+    const hexSize = portalSize * 0.065;
+    const alpha = 0.012;
+    const drift = Math.sin(time * 0.35) * 3;
+
+    portalCtx.save();
+    portalCtx.globalCompositeOperation = "screen";
+    portalCtx.strokeStyle = `rgba(0, 225, 255, ${alpha})`;
+    portalCtx.lineWidth = 0.6;
+
+    for (let y = cy - radius; y <= cy + radius; y += hexSize * 0.86) {
+        for (let x = cx - radius; x <= cx + radius; x += hexSize * 1.5) {
+            const ox = x + ((Math.round((y - cy) / (hexSize * 0.86)) % 2) * hexSize * 0.75) + drift;
+            const oy = y;
+
+            const dx = ox - cx;
+            const dy = oy - cy;
+
+            if (dx * dx + dy * dy > radius * radius * 0.72) continue;
+
+            portalCtx.beginPath();
+
+            for (let i = 0; i <= 6; i++) {
+                const a = Math.PI / 6 + i * Math.PI / 3;
+                const px = ox + Math.cos(a) * hexSize * 0.42;
+                const py = oy + Math.sin(a) * hexSize * 0.42;
+
+                if (i === 0) portalCtx.moveTo(px, py);
+                else portalCtx.lineTo(px, py);
+            }
+
+            portalCtx.stroke();
+        }
+    }
+
+    portalCtx.restore();
+}
+
 function drawEventHorizon(time) {
     if (!portalCtx || !portalSize) return;
 
@@ -390,14 +538,16 @@ function drawEventHorizon(time) {
     portalCtx.clip();
 
     const base = portalCtx.createRadialGradient(c, c, 0, c, c, r);
-    base.addColorStop(0, "rgba(90, 205, 235, 0.08)");
-    base.addColorStop(0.30, "rgba(30, 145, 210, 0.16)");
-    base.addColorStop(0.58, "rgba(10, 72, 145, 0.40)");
+    base.addColorStop(0, "rgba(100, 225, 245, 0.095)");
+    base.addColorStop(0.28, "rgba(35, 160, 225, 0.18)");
+    base.addColorStop(0.56, "rgba(10, 78, 152, 0.40)");
     base.addColorStop(0.82, "rgba(2, 28, 76, 0.84)");
     base.addColorStop(1, "rgba(0, 4, 20, 1)");
 
     portalCtx.fillStyle = base;
     portalCtx.fillRect(0, 0, portalSize, portalSize);
+
+    drawPortalHexGrid(c, c, r, t);
 
     const liquidShiftX = Math.sin(t * 0.32) * 5;
     const liquidShiftY = Math.cos(t * 0.28) * 4;
@@ -411,9 +561,9 @@ function drawEventHorizon(time) {
         r
     );
 
-    sheen.addColorStop(0, "rgba(255, 255, 255, 0.025)");
-    sheen.addColorStop(0.24, "rgba(185, 245, 255, 0.030)");
-    sheen.addColorStop(0.54, "rgba(0, 210, 255, 0.016)");
+    sheen.addColorStop(0, "rgba(255, 255, 255, 0.030)");
+    sheen.addColorStop(0.24, "rgba(185, 245, 255, 0.034)");
+    sheen.addColorStop(0.54, "rgba(0, 210, 255, 0.018)");
     sheen.addColorStop(0.86, "rgba(0, 20, 60, 0.12)");
     sheen.addColorStop(1, "rgba(0, 0, 0, 0)");
 
@@ -425,7 +575,7 @@ function drawEventHorizon(time) {
     for (let i = 0; i < ringCount; i++) {
         const radius = r * (0.30 + i * 0.16);
         const amp = 1.7 + i * 0.18;
-        const alpha = 0.007 + i * 0.0012;
+        const alpha = 0.008 + i * 0.0012;
 
         drawLiquidRing(c, c, radius, amp, t, i * 0.83, alpha);
     }
@@ -458,20 +608,20 @@ function drawEventHorizon(time) {
             }
         }
 
-        portalCtx.strokeStyle = "rgba(210, 250, 255, 0.007)";
+        portalCtx.strokeStyle = "rgba(210, 250, 255, 0.008)";
         portalCtx.lineWidth = 0.65;
         portalCtx.shadowBlur = 1;
         portalCtx.shadowColor = "rgba(0, 225, 255, 0.030)";
         portalCtx.stroke();
     }
 
-    const membrane = portalCtx.createRadialGradient(c, c, r * 0.08, c, c, r * 0.74);
-    membrane.addColorStop(0, "rgba(255,255,255,0.018)");
-    membrane.addColorStop(0.24, "rgba(160,235,255,0.020)");
-    membrane.addColorStop(0.58, "rgba(0,200,255,0.010)");
-    membrane.addColorStop(1, "rgba(0,0,0,0)");
+    const coreGlow = portalCtx.createRadialGradient(c, c, 0, c, c, r * 0.65);
+    coreGlow.addColorStop(0, "rgba(255,255,255,0.034)");
+    coreGlow.addColorStop(0.20, "rgba(120,245,255,0.026)");
+    coreGlow.addColorStop(0.46, "rgba(0,180,255,0.014)");
+    coreGlow.addColorStop(1, "rgba(0,0,0,0)");
 
-    portalCtx.fillStyle = membrane;
+    portalCtx.fillStyle = coreGlow;
     portalCtx.fillRect(0, 0, portalSize, portalSize);
 
     const edge = portalCtx.createRadialGradient(c, c, r * 0.50, c, c, r);

@@ -32,11 +32,112 @@ body::after{
         linear-gradient(90deg,rgba(0,0,0,.18),transparent 25%,transparent 75%,rgba(0,0,0,.2));
 }
 
-.gateway-screen{position:relative;z-index:3;min-height:100vh;display:grid;place-items:center;text-align:center;padding:2rem;overflow:hidden}
-.hero{position:relative;width:100vw;min-height:100vh}
+.gateway-screen{
+    position:relative;
+    z-index:3;
+    min-height:100vh;
+    display:grid;
+    place-items:center;
+    text-align:center;
+    padding:2rem;
+    overflow:hidden;
+    contain:layout paint;
+}
+
+.hero{
+    position:relative;
+    width:100vw;
+    min-height:100vh;
+    transform:translate3d(0,0,0);
+    backface-visibility:hidden;
+}
+
+/* MISSION HUD */
+.mission-hud{
+    position:absolute;
+    left:50%;
+    top:34px;
+    z-index:8;
+    width:min(560px,calc(100vw - 2rem));
+    padding:1rem 1.35rem;
+    border:1px solid rgba(255,213,111,.32);
+    border-radius:20px;
+    background:
+        linear-gradient(180deg,rgba(3,9,22,.78),rgba(0,3,12,.58)),
+        radial-gradient(circle at top,rgba(255,205,92,.10),transparent 60%);
+    box-shadow:
+        0 0 28px rgba(255,190,80,.13),
+        inset 0 0 22px rgba(255,255,255,.035);
+    backdrop-filter:blur(12px);
+    transform:translate3d(-50%,0,0);
+    pointer-events:none;
+    will-change:transform,opacity;
+}
+
+.mission-hud::before{
+    content:"";
+    position:absolute;
+    left:18px;
+    right:18px;
+    top:0;
+    height:1px;
+    background:linear-gradient(90deg,transparent,rgba(255,213,111,.9),transparent);
+    opacity:.75;
+}
+
+.hud-kicker{
+    color:#7eeeff;
+    font-size:.72rem;
+    letter-spacing:.24rem;
+    font-weight:800;
+    text-transform:uppercase;
+    margin-bottom:.25rem;
+    text-shadow:0 0 12px rgba(0,225,255,.35);
+}
+
+.mission-hud h1{
+    color:#ffe2a1;
+    font-size:clamp(1.15rem,2.2vw,1.75rem);
+    letter-spacing:.28rem;
+    font-weight:900;
+    text-transform:uppercase;
+    margin-bottom:.55rem;
+    text-shadow:0 0 18px rgba(255,205,92,.28);
+}
+
+.hud-status-row{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:.45rem;
+}
+
+.hud-status-row span{
+    color:#d9e6f6;
+    font-size:.68rem;
+    letter-spacing:.10rem;
+    text-transform:uppercase;
+    border:1px solid rgba(126,238,255,.20);
+    border-radius:999px;
+    padding:.28rem .55rem;
+    background:rgba(255,255,255,.035);
+}
 
 /* CENTRAL GATE */
-.stargate{position:absolute;left:50%;top:47%;width:560px;height:560px;transform:translate(-50%,-50%);display:grid;place-items:center;z-index:4}
+.stargate{
+    position:absolute;
+    left:50%;
+    top:47%;
+    width:560px;
+    height:560px;
+    transform:translate3d(-50%,-50%,0);
+    display:grid;
+    place-items:center;
+    z-index:4;
+    will-change:filter,transform;
+    backface-visibility:hidden;
+    transform-style:preserve-3d;
+}
 
 .gate-ring{
     position:absolute;width:100%;height:100%;border:2px solid rgba(255,205,92,.95);border-radius:50%;
@@ -46,10 +147,13 @@ body::after{
         0 0 32px rgba(0,190,255,.18),
         inset 0 0 42px rgba(255,220,130,.48);
     animation:pulse 4s infinite ease-in-out;
+    will-change:transform,opacity;
+    transform:translate3d(0,0,0);
 }
 
 .gate-ring::before,.gate-ring::after{
     content:"";position:absolute;inset:30px;border:1px dashed rgba(255,238,174,.56);border-radius:50%;animation:rotate 24s linear infinite;
+    will-change:transform;
 }
 
 .gate-ring::after{inset:72px;border-color:rgba(0,225,255,.34);animation-direction:reverse;animation-duration:34s}
@@ -66,6 +170,9 @@ body::after{
         inset 0 0 180px rgba(0,0,0,.88),
         0 0 60px rgba(0,200,255,.18),
         0 0 52px rgba(255,178,68,.22);
+    transform:translate3d(0,0,0);
+    backface-visibility:hidden;
+    contain:layout paint;
 }
 
 /* FOLYÉKONY CSILLAGKAPU MAG */
@@ -78,6 +185,7 @@ body::after{
     mix-blend-mode:screen;
     filter:blur(3px);
     animation:horizonFlow 9s ease-in-out infinite;
+    will-change:transform,opacity;
 }
 
 .event-horizon::before{
@@ -90,6 +198,7 @@ body::after{
     filter:blur(28px);
     opacity:.42;
     animation:waterSpin 18s linear infinite;
+    will-change:transform;
 }
 
 .event-horizon::after{
@@ -100,11 +209,13 @@ body::after{
     background:radial-gradient(circle,rgba(255,255,255,.035) 0%,rgba(130,230,255,.035) 24%,transparent 68%);
     filter:blur(16px);
     animation:rippleField 8s ease-in-out infinite;
+    will-change:transform,opacity;
 }
 
 .portal-image{
-    position:absolute;inset:0;background-image:url("assets/images/project_center.jpg");background-size:cover;background-position:center;
+    position:absolute;inset:0;background-image:url("assets/images/project_center.webp");background-size:cover;background-position:center;
     opacity:.008;filter:blur(10px) brightness(.24) sepia(.04) saturate(1.02);animation:portalPulse 8s ease-in-out infinite;
+    will-change:transform,opacity;
 }
 
 .water-layer{
@@ -116,6 +227,7 @@ body::after{
         conic-gradient(from 0deg,rgba(0,225,255,.075),rgba(255,255,230,.045),rgba(0,117,255,.085),rgba(255,173,59,.035),rgba(0,225,255,.075));
     mix-blend-mode:screen;
     filter:blur(32px);
+    will-change:transform;
 }
 
 .layer-one{animation:waterSpin 20s linear infinite}
@@ -130,6 +242,7 @@ body::after{
         inset 0 0 120px rgba(0,225,255,.18),
         inset 0 0 260px rgba(0,5,14,.96);
     animation:ripple 6.5s ease-in-out infinite;
+    will-change:transform,opacity;
 }
 
 .portal-ripple{
@@ -141,13 +254,14 @@ body::after{
     filter:blur(2.2px);
     mix-blend-mode:screen;
     animation:rippleField 8.4s ease-in-out infinite;
+    will-change:transform,opacity;
 }
 
 .scan-lines{display:none}
 .gate-core::before,.gate-core::after{display:none}
 
 /* PROJECT OBJECTS */
-.project-orbit{position:absolute;inset:0;z-index:5}
+.project-orbit{position:absolute;inset:0;z-index:5;contain:layout paint}
 
 .project-object{
     position:absolute;
@@ -159,11 +273,14 @@ body::after{
     background-position:center;
     background-repeat:no-repeat;
     overflow:visible;
-    transition:.28s ease;
+    transition:filter .22s ease, opacity .22s ease, transform .22s ease;
     isolation:isolate;
     mix-blend-mode:screen;
     opacity:.88;
     filter:brightness(.86) contrast(1.04) saturate(.92);
+    transform:translate3d(0,0,0);
+    backface-visibility:hidden;
+    will-change:transform,filter,opacity;
 }
 
 .project-object::before{
@@ -173,8 +290,8 @@ body::after{
     border-radius:50%;
     z-index:-2;
     pointer-events:none;
-    filter:blur(40px);
-    opacity:.12;
+    filter:blur(32px);
+    opacity:.10;
     mix-blend-mode:screen;
 }
 
@@ -185,16 +302,16 @@ body::after{
     border-radius:50%;
     z-index:-1;
     pointer-events:none;
-    background:radial-gradient(circle,rgba(255,255,255,.035),transparent 70%);
-    filter:blur(28px);
-    opacity:.38;
+    background:radial-gradient(circle,rgba(255,255,255,.03),transparent 70%);
+    filter:blur(22px);
+    opacity:.30;
     mix-blend-mode:screen;
 }
 
 .project-name{display:none}
 
 .project-object:hover{
-    transform:scale(1.08);
+    transform:translate3d(0,0,0) scale(1.06);
     opacity:.98;
     filter:brightness(.98) contrast(1.08) saturate(1.02);
 }
@@ -237,7 +354,7 @@ body::after{
 .supernova::before{
     background:
         radial-gradient(circle,
-            rgba(90,70,140,.12),
+            rgba(90,70,140,.10),
             transparent 70%);
 }
 
@@ -268,7 +385,7 @@ body::after{
 .black-hole::before{
     background:
         radial-gradient(circle,
-            rgba(110,70,30,.12),
+            rgba(110,70,30,.10),
             transparent 72%);
 }
 
@@ -283,7 +400,7 @@ body::after{
 .planet-blue::before{
     background:
         radial-gradient(circle,
-            rgba(30,80,120,.10),
+            rgba(30,80,120,.09),
             transparent 75%);
 }
 
@@ -298,7 +415,7 @@ body::after{
 .planet-gold::before{
     background:
         radial-gradient(circle,
-            rgba(120,90,30,.10),
+            rgba(120,90,30,.09),
             transparent 75%);
 }
 
@@ -349,13 +466,14 @@ body::after{
     backdrop-filter:blur(12px);
     pointer-events:none;
     opacity:0;
-    transform:translate(-50%,-122%) scale(.96);
+    transform:translate3d(-50%,-122%,0) scale(.96);
     transition:opacity .16s ease, transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+    will-change:transform,opacity;
 }
 
 .project-tooltip.is-visible{
     opacity:1;
-    transform:translate(-50%,-132%) scale(1);
+    transform:translate3d(-50%,-132%,0) scale(1);
     border-color:var(--project-accent);
     box-shadow:
         0 0 34px var(--project-accent-soft),
@@ -390,14 +508,14 @@ body::after{
     z-index:-1;
     pointer-events:none;
     background:radial-gradient(circle,var(--project-accent-soft),transparent 70%);
-    filter:blur(22px);
-    opacity:.75;
-    animation:activationPulse .42s ease-out forwards;
+    filter:blur(18px);
+    opacity:.70;
+    animation:activationPulse .38s ease-out forwards;
 }
 
 @keyframes activationPulse{
-    0%{transform:scale(.84);opacity:.72}
-    100%{transform:scale(1.22);opacity:0}
+    0%{transform:translate3d(0,0,0) scale(.84);opacity:.72}
+    100%{transform:translate3d(0,0,0) scale(1.18);opacity:0}
 }
 
 /* MISSION PANEL OFF */
@@ -425,20 +543,21 @@ body::after{
 .footer-links a:hover{border-color:#ffc857}
 
 /* ANIMATIONS */
-@keyframes pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.026);opacity:1}}
-@keyframes portalPulse{0%,100%{opacity:.008;transform:scale(1)}50%{opacity:.025;transform:scale(1.04)}}
-@keyframes rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-@keyframes waterSpin{from{transform:rotate(0deg) scale(1.05)}to{transform:rotate(360deg) scale(1.05)}}
-@keyframes waterSpinReverse{from{transform:rotate(360deg) scale(1.12)}to{transform:rotate(0deg) scale(1.12)}}
-@keyframes ripple{0%,100%{opacity:.46;transform:scale(1)}50%{opacity:.72;transform:scale(1.035)}}
-@keyframes horizonFlow{0%,100%{transform:scale(1);opacity:.16}50%{transform:scale(1.045);opacity:.28}}
-@keyframes rippleField{0%,100%{transform:scale(.94);opacity:.08}50%{transform:scale(1.12);opacity:.18}}
-@keyframes floatSlow{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-14px) scale(1.025)}}
-@keyframes novaFloat{0%,100%{transform:translateY(0) scale(1);opacity:.9}50%{transform:translateY(12px) scale(1.045);opacity:1}}
+@keyframes pulse{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.9}50%{transform:translate3d(0,0,0) scale(1.026);opacity:1}}
+@keyframes portalPulse{0%,100%{opacity:.008;transform:translate3d(0,0,0) scale(1)}50%{opacity:.025;transform:translate3d(0,0,0) scale(1.04)}}
+@keyframes rotate{from{transform:translate3d(0,0,0) rotate(0deg)}to{transform:translate3d(0,0,0) rotate(360deg)}}
+@keyframes waterSpin{from{transform:translate3d(0,0,0) rotate(0deg) scale(1.05)}to{transform:translate3d(0,0,0) rotate(360deg) scale(1.05)}}
+@keyframes waterSpinReverse{from{transform:translate3d(0,0,0) rotate(360deg) scale(1.12)}to{transform:translate3d(0,0,0) rotate(0deg) scale(1.12)}}
+@keyframes ripple{0%,100%{opacity:.46;transform:translate3d(0,0,0) scale(1)}50%{opacity:.72;transform:translate3d(0,0,0) scale(1.035)}}
+@keyframes horizonFlow{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.16}50%{transform:translate3d(0,0,0) scale(1.045);opacity:.28}}
+@keyframes rippleField{0%,100%{transform:translate3d(0,0,0) scale(.94);opacity:.08}50%{transform:translate3d(0,0,0) scale(1.12);opacity:.18}}
+@keyframes floatSlow{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(0,-14px,0) scale(1.025)}}
+@keyframes novaFloat{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.9}50%{transform:translate3d(0,12px,0) scale(1.045);opacity:1}}
 
 /* RESPONSIVE */
 @media(max-width:1050px){
     .hero{min-height:1050px}
+    .mission-hud{top:24px;width:min(500px,calc(100vw - 2rem))}
     .stargate{top:35%;width:420px;height:420px}
     .gate-core{width:300px;height:300px}
 
@@ -450,12 +569,33 @@ body::after{
 
 @media(max-width:680px){
     .project-tooltip{display:none}
+    .mission-hud{
+        top:18px;
+        padding:.78rem .85rem;
+        border-radius:16px;
+    }
+
+    .mission-hud h1{
+        font-size:1rem;
+        letter-spacing:.16rem;
+    }
+
+    .hud-kicker{
+        font-size:.62rem;
+        letter-spacing:.16rem;
+    }
+
+    .hud-status-row span{
+        font-size:.58rem;
+        padding:.22rem .42rem;
+    }
+
     .hero{min-height:1220px}
     .stargate{top:20%;width:310px;height:310px}
     .gate-core{width:220px;height:220px}
 
     .supernova,.black-hole,.planet-blue,.planet-gold{
-        left:50%;right:auto;width:180px;height:180px;transform:translateX(-50%);
+        left:50%;right:auto;width:180px;height:180px;transform:translate3d(-50%,0,0);
     }
 
     .supernova{top:35%;animation:none}

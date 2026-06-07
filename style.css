@@ -5,31 +5,43 @@ body{min-height:100vh;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;b
 
 body::before{
     content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
-    background:radial-gradient(circle at center,rgba(15,25,45,.18),rgba(0,0,0,0) 70%);
-    filter:blur(40px);opacity:1;mix-blend-mode:screen;
+    background:
+        radial-gradient(circle at 50% 48%,rgba(0,160,220,.10),rgba(0,0,0,0) 36%),
+        radial-gradient(circle at center,rgba(15,25,45,.14),rgba(0,0,0,0) 70%);
+    filter:blur(42px);opacity:1;mix-blend-mode:screen;
 }
 
 body::after{
     content:"";position:fixed;inset:0;z-index:2;pointer-events:none;
     background:
-        radial-gradient(circle at center,transparent 0%,rgba(0,0,0,.24) 48%,rgba(0,0,0,.9) 100%),
-        linear-gradient(90deg,rgba(0,0,0,.18),transparent 25%,transparent 75%,rgba(0,0,0,.2));
+        radial-gradient(circle at center,transparent 0%,rgba(0,0,0,.18) 42%,rgba(0,0,0,.92) 100%),
+        radial-gradient(circle at 18% 18%,rgba(255,90,70,.055),transparent 34%),
+        radial-gradient(circle at 82% 20%,rgba(255,160,60,.045),transparent 34%),
+        linear-gradient(90deg,rgba(0,0,0,.22),transparent 28%,transparent 72%,rgba(0,0,0,.28));
 }
 
 body.theme-freelancer-protocol::before{
-    background:radial-gradient(circle at center,rgba(255,85,65,.16),rgba(0,0,0,0) 70%);
+    background:
+        radial-gradient(circle at 50% 48%,rgba(255,95,70,.14),rgba(0,0,0,0) 40%),
+        radial-gradient(circle at center,rgba(255,85,65,.16),rgba(0,0,0,0) 70%);
 }
 
 body.theme-nia-os::before{
-    background:radial-gradient(circle at center,rgba(0,225,255,.18),rgba(0,0,0,0) 70%);
+    background:
+        radial-gradient(circle at 50% 48%,rgba(0,225,255,.18),rgba(0,0,0,0) 42%),
+        radial-gradient(circle at center,rgba(0,95,255,.12),rgba(0,0,0,0) 70%);
 }
 
 body.theme-dome-shell::before{
-    background:radial-gradient(circle at center,rgba(70,220,255,.15),rgba(0,0,0,0) 70%);
+    background:
+        radial-gradient(circle at 50% 48%,rgba(70,230,255,.15),rgba(0,0,0,0) 42%),
+        radial-gradient(circle at center,rgba(20,160,180,.12),rgba(0,0,0,0) 70%);
 }
 
 body.theme-laskagomba-mester::before{
-    background:radial-gradient(circle at center,rgba(255,205,92,.16),rgba(0,0,0,0) 70%);
+    background:
+        radial-gradient(circle at 50% 48%,rgba(255,205,92,.16),rgba(0,0,0,0) 42%),
+        radial-gradient(circle at center,rgba(255,140,45,.11),rgba(0,0,0,0) 70%);
 }
 
 .gateway-screen{position:relative;z-index:3;min-height:100vh;display:grid;place-items:center;text-align:center;padding:2rem;overflow:hidden;contain:layout paint}
@@ -190,7 +202,7 @@ body.theme-laskagomba-mester::before{
 .micro-four{left:12%;top:39%;background:rgba(255,160,90,.76);box-shadow:0 0 8px rgba(255,110,50,.30)}
 .micro-five{left:67%;top:16%}
 
-/* GATE RING - RESTORED */
+/* GATE RING */
 .gate-ring{
     position:absolute;
     width:100%;
@@ -293,25 +305,29 @@ body.theme-laskagomba-mester::before{
 
 .project-object{
     position:absolute;display:grid;place-items:center;text-decoration:none;color:#fff;background-size:contain;background-position:center;background-repeat:no-repeat;
-    overflow:visible;transition:filter .22s ease,opacity .22s ease,transform .22s ease;isolation:isolate;mix-blend-mode:screen;
-    opacity:.88;filter:brightness(.86) contrast(1.04) saturate(.92);transform:translate3d(0,0,0);
+    overflow:visible;transition:filter .24s ease,opacity .24s ease,transform .24s ease;isolation:isolate;mix-blend-mode:screen;
+    opacity:.84;filter:brightness(.82) contrast(1.04) saturate(.90);transform:translate3d(0,0,0);
     backface-visibility:hidden;will-change:transform,filter,opacity;
 }
 
 .project-object::before{
-    content:"";position:absolute;inset:-20%;border-radius:50%;z-index:-2;pointer-events:none;
-    filter:blur(32px);opacity:.10;mix-blend-mode:screen;
+    content:"";position:absolute;inset:-24%;border-radius:50%;z-index:-2;pointer-events:none;
+    filter:blur(34px);opacity:.12;mix-blend-mode:screen;
 }
 
 .project-object::after{
-    content:"";position:absolute;inset:-18%;border-radius:50%;z-index:-1;pointer-events:none;
-    background:radial-gradient(circle,rgba(255,255,255,.03),transparent 70%);
-    filter:blur(22px);opacity:.30;mix-blend-mode:screen;
+    content:"";position:absolute;inset:-20%;border-radius:50%;z-index:-1;pointer-events:none;
+    background:radial-gradient(circle,rgba(255,255,255,.035),transparent 70%);
+    filter:blur(24px);opacity:.26;mix-blend-mode:screen;
 }
 
 .project-name{display:none}
 
-.project-object:hover{transform:translate3d(0,0,0) scale(1.06);opacity:.98;filter:brightness(.98) contrast(1.08) saturate(1.02)}
+.project-object:hover{
+    transform:translate3d(0,0,0) scale(1.065);
+    opacity:1;
+    filter:brightness(1.05) contrast(1.10) saturate(1.08);
+}
 
 .supernova,.black-hole{
     -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:100% 100%;mask-size:100% 100%;
@@ -322,20 +338,24 @@ body.theme-laskagomba-mester::before{
     -webkit-mask-image:radial-gradient(circle at 48% 48%,black 0%,black 38%,rgba(0,0,0,.82) 55%,rgba(0,0,0,.42) 70%,transparent 88%);
     mask-image:radial-gradient(circle at 48% 48%,black 0%,black 38%,rgba(0,0,0,.82) 55%,rgba(0,0,0,.42) 70%,transparent 88%);
 }
-.supernova::before{background:radial-gradient(circle,rgba(90,70,140,.10),transparent 70%)}
+.supernova::before{background:radial-gradient(circle,rgba(255,90,70,.16),transparent 72%)}
+.supernova:hover{filter:brightness(1.06) contrast(1.10) saturate(1.10) drop-shadow(0 0 28px rgba(255,92,72,.34)) drop-shadow(0 0 70px rgba(255,92,72,.16))}
 
 .black-hole{
     right:85px;top:45px;width:620px;height:450px;background-image:url("assets/images/black_hole_transparent.webp");animation:none;
     -webkit-mask-image:radial-gradient(ellipse at 54% 48%,black 0%,black 28%,rgba(0,0,0,.80) 46%,rgba(0,0,0,.25) 62%,transparent 78%);
     mask-image:radial-gradient(ellipse at 54% 48%,black 0%,black 28%,rgba(0,0,0,.80) 46%,rgba(0,0,0,.25) 62%,transparent 78%);
 }
-.black-hole::before{background:radial-gradient(circle,rgba(110,70,30,.10),transparent 72%)}
+.black-hole::before{background:radial-gradient(circle,rgba(0,225,255,.13),transparent 72%)}
+.black-hole:hover{filter:brightness(1.08) contrast(1.12) saturate(1.08) drop-shadow(0 0 28px rgba(0,225,255,.30)) drop-shadow(0 0 72px rgba(0,120,255,.15))}
 
 .planet-blue{left:18px;bottom:18px;width:350px;height:350px;background-image:url("assets/images/planet_blue_transparent.webp")}
-.planet-blue::before{background:radial-gradient(circle,rgba(30,80,120,.09),transparent 75%)}
+.planet-blue::before{background:radial-gradient(circle,rgba(70,220,255,.13),transparent 75%)}
+.planet-blue:hover{filter:brightness(1.07) contrast(1.09) saturate(1.08) drop-shadow(0 0 26px rgba(70,220,255,.28)) drop-shadow(0 0 65px rgba(70,220,255,.13))}
 
 .planet-gold{right:120px;bottom:50px;width:347px;height:347px;background-image:url("assets/images/planet_gold_transparent.webp")}
-.planet-gold::before{background:radial-gradient(circle,rgba(120,90,30,.09),transparent 75%)}
+.planet-gold::before{background:radial-gradient(circle,rgba(255,205,92,.15),transparent 75%)}
+.planet-gold:hover{filter:brightness(1.08) contrast(1.09) saturate(1.08) drop-shadow(0 0 26px rgba(255,205,92,.30)) drop-shadow(0 0 65px rgba(255,160,55,.14))}
 
 /* PROJECT ACTIVATION SYSTEM */
 :root{
@@ -343,6 +363,25 @@ body.theme-laskagomba-mester::before{
     --project-accent-soft:rgba(255,205,92,.20);
     --project-accent-deep:rgba(255,205,92,.08);
     --project-portal:rgba(255,205,92,.20);
+}
+
+body[data-active-project="freelancer-protocol"] .supernova,
+body[data-active-project="nia-os"] .black-hole,
+body[data-active-project="dome-shell"] .planet-blue,
+body[data-active-project="laskagomba-mester"] .planet-gold{
+    opacity:1;
+    filter:brightness(1.10) contrast(1.12) saturate(1.12) drop-shadow(0 0 34px var(--project-accent-soft)) drop-shadow(0 0 90px var(--project-accent-deep));
+}
+
+body[data-active-project] .project-object:not(:hover){
+    opacity:.72;
+}
+
+body[data-active-project="freelancer-protocol"] .supernova,
+body[data-active-project="nia-os"] .black-hole,
+body[data-active-project="dome-shell"] .planet-blue,
+body[data-active-project="laskagomba-mester"] .planet-gold{
+    opacity:1;
 }
 
 .stargate{transition:filter .24s ease,transform .24s ease}

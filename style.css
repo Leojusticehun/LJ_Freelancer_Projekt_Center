@@ -140,23 +140,37 @@ body::after{
 }
 
 .gate-ring{
-    position:absolute;width:100%;height:100%;border:2px solid rgba(255,205,92,.95);border-radius:50%;
+    position:absolute;
+    width:100%;
+    height:100%;
+    border:2px solid rgba(255,205,92,.95);
+    border-radius:50%;
     box-shadow:
         0 0 24px rgba(255,190,75,.95),
         0 0 72px rgba(255,117,35,.36),
         0 0 32px rgba(0,190,255,.18),
         inset 0 0 42px rgba(255,220,130,.48);
-    animation:pulse 4s infinite ease-in-out;
-    will-change:transform,opacity;
+    animation:gatePulse 5.8s infinite ease-in-out;
+    will-change:transform,opacity,box-shadow;
     transform:translate3d(0,0,0);
 }
 
 .gate-ring::before,.gate-ring::after{
-    content:"";position:absolute;inset:30px;border:1px dashed rgba(255,238,174,.56);border-radius:50%;animation:rotate 24s linear infinite;
+    content:"";
+    position:absolute;
+    inset:30px;
+    border:1px dashed rgba(255,238,174,.56);
+    border-radius:50%;
+    animation:rotate 24s linear infinite;
     will-change:transform;
 }
 
-.gate-ring::after{inset:72px;border-color:rgba(0,225,255,.34);animation-direction:reverse;animation-duration:34s}
+.gate-ring::after{
+    inset:72px;
+    border-color:rgba(0,225,255,.34);
+    animation-direction:reverse;
+    animation-duration:34s;
+}
 
 .gate-core{
     position:relative;
@@ -175,13 +189,58 @@ body::after{
     contain:layout paint;
 }
 
+/* PORTAL FX 3.0 - CENTER ENERGY FIELD */
+.gate-core::before{
+    content:"";
+    position:absolute;
+    inset:5%;
+    z-index:2;
+    border-radius:50%;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 48% 50%,rgba(210,255,255,.075),transparent 18%),
+        radial-gradient(circle at 50% 50%,rgba(0,225,255,.11),transparent 34%),
+        conic-gradient(from 0deg,
+            rgba(0,225,255,.04),
+            rgba(255,220,120,.025),
+            rgba(40,125,255,.055),
+            rgba(0,225,255,.04));
+    filter:blur(14px);
+    opacity:.62;
+    mix-blend-mode:screen;
+    animation:portalMist 12s linear infinite;
+    will-change:transform,opacity;
+}
+
+.gate-core::after{
+    content:"";
+    position:absolute;
+    inset:16%;
+    z-index:3;
+    border-radius:50%;
+    pointer-events:none;
+    background:
+        repeating-conic-gradient(
+            from 0deg,
+            rgba(190,250,255,.035) 0deg,
+            rgba(190,250,255,.010) 7deg,
+            transparent 15deg,
+            transparent 32deg
+        );
+    filter:blur(9px);
+    opacity:.24;
+    mix-blend-mode:screen;
+    animation:portalNeedle 18s linear infinite reverse;
+    will-change:transform,opacity;
+}
+
 /* FOLYÉKONY CSILLAGKAPU MAG */
 .event-horizon{
     position:absolute;
     inset:0;
     border-radius:50%;
     background:transparent;
-    opacity:.22;
+    opacity:.24;
     mix-blend-mode:screen;
     filter:blur(3px);
     animation:horizonFlow 9s ease-in-out infinite;
@@ -213,8 +272,14 @@ body::after{
 }
 
 .portal-image{
-    position:absolute;inset:0;background-image:url("assets/images/project_center.webp");background-size:cover;background-position:center;
-    opacity:.008;filter:blur(10px) brightness(.24) sepia(.04) saturate(1.02);animation:portalPulse 8s ease-in-out infinite;
+    position:absolute;
+    inset:0;
+    background-image:url("assets/images/project_center.webp");
+    background-size:cover;
+    background-position:center;
+    opacity:.010;
+    filter:blur(10px) brightness(.24) sepia(.04) saturate(1.02);
+    animation:portalPulse 8s ease-in-out infinite;
     will-change:transform,opacity;
 }
 
@@ -250,7 +315,7 @@ body::after{
     inset:6%;
     border-radius:50%;
     background:repeating-radial-gradient(circle,rgba(255,255,255,.045) 0px,rgba(0,225,255,.03) 2px,transparent 12px,transparent 34px);
-    opacity:.10;
+    opacity:.12;
     filter:blur(2.2px);
     mix-blend-mode:screen;
     animation:rippleField 8.4s ease-in-out infinite;
@@ -258,7 +323,6 @@ body::after{
 }
 
 .scan-lines{display:none}
-.gate-core::before,.gate-core::after{display:none}
 
 /* PROJECT OBJECTS */
 .project-orbit{position:absolute;inset:0;z-index:5;contain:layout paint}
@@ -419,7 +483,6 @@ body::after{
             transparent 75%);
 }
 
-
 /* INTERACTIVE PROJECT TOOLTIP */
 :root{
     --project-accent:rgba(255,205,92,.95);
@@ -431,11 +494,12 @@ body::after{
 }
 
 .stargate.gate-active{
-    filter:brightness(1.08) saturate(1.08);
+    filter:brightness(1.10) saturate(1.10);
 }
 
 .stargate.gate-active .gate-ring{
     border-color:var(--project-accent);
+    animation:gateActivePulse 3.8s infinite ease-in-out;
     box-shadow:
         0 0 30px var(--project-accent),
         0 0 90px var(--project-accent-soft),
@@ -449,6 +513,11 @@ body::after{
         inset 0 0 180px rgba(0,0,0,.88),
         0 0 68px var(--project-accent-soft),
         0 0 52px rgba(255,178,68,.22);
+}
+
+.stargate.gate-active .gate-core::before{
+    opacity:.82;
+    filter:blur(12px);
 }
 
 .project-tooltip{
@@ -513,11 +582,6 @@ body::after{
     animation:activationPulse .38s ease-out forwards;
 }
 
-@keyframes activationPulse{
-    0%{transform:translate3d(0,0,0) scale(.84);opacity:.72}
-    100%{transform:translate3d(0,0,0) scale(1.18);opacity:0}
-}
-
 /* MISSION PANEL OFF */
 .mission-panel{display:none}
 
@@ -543,8 +607,49 @@ body::after{
 .footer-links a:hover{border-color:#ffc857}
 
 /* ANIMATIONS */
-@keyframes pulse{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.9}50%{transform:translate3d(0,0,0) scale(1.026);opacity:1}}
-@keyframes portalPulse{0%,100%{opacity:.008;transform:translate3d(0,0,0) scale(1)}50%{opacity:.025;transform:translate3d(0,0,0) scale(1.04)}}
+@keyframes gatePulse{
+    0%,100%{
+        transform:translate3d(0,0,0) scale(1);
+        opacity:.90;
+        box-shadow:
+            0 0 22px rgba(255,190,75,.82),
+            0 0 62px rgba(255,117,35,.30),
+            0 0 30px rgba(0,190,255,.15),
+            inset 0 0 42px rgba(255,220,130,.42);
+    }
+    50%{
+        transform:translate3d(0,0,0) scale(1.018);
+        opacity:1;
+        box-shadow:
+            0 0 30px rgba(255,205,92,1),
+            0 0 86px rgba(255,117,35,.42),
+            0 0 42px rgba(0,225,255,.22),
+            inset 0 0 52px rgba(255,220,130,.55);
+    }
+}
+
+@keyframes gateActivePulse{
+    0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.95}
+    50%{transform:translate3d(0,0,0) scale(1.024);opacity:1}
+}
+
+@keyframes portalMist{
+    0%{transform:translate3d(0,0,0) rotate(0deg) scale(1);opacity:.52}
+    50%{transform:translate3d(0,0,0) rotate(180deg) scale(1.06);opacity:.72}
+    100%{transform:translate3d(0,0,0) rotate(360deg) scale(1);opacity:.52}
+}
+
+@keyframes portalNeedle{
+    from{transform:translate3d(0,0,0) rotate(0deg) scale(1)}
+    to{transform:translate3d(0,0,0) rotate(360deg) scale(1)}
+}
+
+@keyframes activationPulse{
+    0%{transform:translate3d(0,0,0) scale(.84);opacity:.72}
+    100%{transform:translate3d(0,0,0) scale(1.18);opacity:0}
+}
+
+@keyframes portalPulse{0%,100%{opacity:.010;transform:translate3d(0,0,0) scale(1)}50%{opacity:.026;transform:translate3d(0,0,0) scale(1.035)}}
 @keyframes rotate{from{transform:translate3d(0,0,0) rotate(0deg)}to{transform:translate3d(0,0,0) rotate(360deg)}}
 @keyframes waterSpin{from{transform:translate3d(0,0,0) rotate(0deg) scale(1.05)}to{transform:translate3d(0,0,0) rotate(360deg) scale(1.05)}}
 @keyframes waterSpinReverse{from{transform:translate3d(0,0,0) rotate(360deg) scale(1.12)}to{transform:translate3d(0,0,0) rotate(0deg) scale(1.12)}}

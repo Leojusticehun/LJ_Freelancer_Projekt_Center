@@ -191,15 +191,13 @@ body::after{
     transform:translate3d(0,0,0);
 }
 
-.gate-ring::before,.gate-ring::after{
-    content:"";position:absolute;inset:30px;border:1px dashed rgba(255,238,174,.56);border-radius:50%;
-    animation:rotate 24s linear infinite;will-change:transform;
+.gate-ring::before,
+.gate-ring::after{
+    display:none;
 }
 
-.gate-ring::after{inset:72px;border-color:rgba(0,225,255,.34);animation-direction:reverse;animation-duration:34s}
-
 .gate-core{
-    position:relative;width:400px;height:400px;border-radius:50%;overflow:hidden;background:#03111f;
+    position:relative;width:500px;height:500px;border-radius:50%;overflow:hidden;background:#03111f;
     box-shadow:
         inset 0 0 90px rgba(0,225,255,.22),
         inset 0 0 180px rgba(0,0,0,.88),
@@ -413,7 +411,7 @@ body::after{
     .hero{min-height:1050px}
     .mission-hud{top:24px;width:min(500px,calc(100vw - 2rem))}
     .stargate{top:35%;width:420px;height:420px}
-    .gate-core{width:300px;height:300px}
+    .gate-core{width:370px;height:370px}
     .orbital-body{width:10px;height:10px}
     .meteor{width:6px;height:3px}
     .micro-body{width:4px;height:4px}
@@ -432,7 +430,7 @@ body::after{
 
     .hero{min-height:1220px}
     .stargate{top:20%;width:310px;height:310px}
-    .gate-core{width:220px;height:220px}
+    .gate-core{width:270px;height:270px}
 
     .orbital-body{width:8px;height:8px}
     .meteor{width:5px;height:2.5px}

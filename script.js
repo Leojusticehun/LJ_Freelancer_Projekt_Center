@@ -486,7 +486,7 @@ function drawEventHorizon(time) {
     portalCtx.shadowBlur = 0;
 }
 
-/* PROJECT INTERACTION SYSTEM */
+/* PROJECT ACTIVATION SYSTEM 1.0 */
 
 const projectLinks = document.querySelectorAll(".project-link");
 const stargate = document.querySelector(".stargate");
@@ -500,33 +500,93 @@ const missionSubtitle = document.getElementById("missionSubtitle");
 
 const projectAccents = {
     "supernova": {
+        theme: "freelancer-protocol",
         accent: "rgba(255,92,72,.95)",
-        soft: "rgba(255,92,72,.22)"
+        soft: "rgba(255,92,72,.24)",
+        deep: "rgba(255,65,45,.12)",
+        portal: "rgba(255,118,72,.30)"
     },
     "black-hole": {
-        accent: "rgba(255,170,72,.95)",
-        soft: "rgba(255,140,40,.22)"
+        theme: "nia-os",
+        accent: "rgba(0,225,255,.95)",
+        soft: "rgba(0,180,255,.26)",
+        deep: "rgba(0,90,255,.13)",
+        portal: "rgba(0,225,255,.32)"
     },
     "planet-blue": {
-        accent: "rgba(70,170,255,.95)",
-        soft: "rgba(70,170,255,.22)"
+        theme: "dome-shell",
+        accent: "rgba(80,230,255,.95)",
+        soft: "rgba(60,190,255,.22)",
+        deep: "rgba(0,120,180,.12)",
+        portal: "rgba(75,220,255,.28)"
     },
     "planet-gold": {
+        theme: "laskagomba-mester",
         accent: "rgba(255,205,92,.95)",
-        soft: "rgba(255,205,92,.22)"
+        soft: "rgba(255,180,70,.24)",
+        deep: "rgba(110,80,20,.13)",
+        portal: "rgba(255,205,92,.30)"
     }
 };
 
+let activeTheme = null;
+let activationTimer = null;
+
+function getProjectKey(link) {
+    return Object.keys(projectAccents).find((name) => link.classList.contains(name));
+}
+
 function getProjectAccent(link) {
-    const key = Object.keys(projectAccents).find((name) => link.classList.contains(name));
+    const key = getProjectKey(link);
     return projectAccents[key] || projectAccents["planet-gold"];
+}
+
+function clearProjectThemeClasses() {
+    document.body.classList.remove(
+        "theme-freelancer-protocol",
+        "theme-nia-os",
+        "theme-dome-shell",
+        "theme-laskagomba-mester"
+    );
 }
 
 function applyProjectAccent(link) {
     const accent = getProjectAccent(link);
 
+    activeTheme = accent.theme;
+
+    clearProjectThemeClasses();
+    document.body.classList.add(`theme-${accent.theme}`);
+    document.body.dataset.activeProject = accent.theme;
+
     document.documentElement.style.setProperty("--project-accent", accent.accent);
     document.documentElement.style.setProperty("--project-accent-soft", accent.soft);
+    document.documentElement.style.setProperty("--project-accent-deep", accent.deep);
+    document.documentElement.style.setProperty("--project-portal", accent.portal);
+
+    if (stargate) {
+        stargate.classList.remove("gate-pulse-burst");
+        window.clearTimeout(activationTimer);
+
+        requestAnimationFrame(() => {
+            stargate.classList.add("gate-pulse-burst");
+        });
+
+        activationTimer = window.setTimeout(() => {
+            stargate.classList.remove("gate-pulse-burst");
+        }, 650);
+    }
+}
+
+function resetProjectAccent() {
+    activeTheme = null;
+    clearProjectThemeClasses();
+    document.body.removeAttribute("data-active-project");
+
+    document.documentElement.style.setProperty("--project-accent", "rgba(255,205,92,.95)");
+    document.documentElement.style.setProperty("--project-accent-soft", "rgba(255,205,92,.20)");
+    document.documentElement.style.setProperty("--project-accent-deep", "rgba(255,205,92,.08)");
+    document.documentElement.style.setProperty("--project-portal", "rgba(255,205,92,.20)");
 }
 
 function updateTooltipPosition(event) {
@@ -570,7 +630,10 @@ function showProjectTooltip(link, event) {
 function hideProjectTooltip() {
     if (stargate) {
         stargate.classList.remove("gate-active");
+        stargate.classList.remove("gate-pulse-burst");
     }
+
+    resetProjectAccent();
 
     if (projectTooltip) {
         projectTooltip.classList.remove("is-visible");
@@ -595,6 +658,7 @@ function activateProjectLink(link, event) {
 
     if (stargate) {
         stargate.classList.add("gate-active");
+        stargate.classList.add("gate-pulse-burst");
     }
 
     window.setTimeout(() => {
@@ -682,6 +746,7 @@ document.addEventListener("visibilitychange", () => {
     else startAnimation();
 });
 
+resetProjectAccent();
 resizeCanvas();
 setupPortalCanvas();
 renderNebulaToBuffer(performance.now());

@@ -16,6 +16,22 @@ body::after{
         linear-gradient(90deg,rgba(0,0,0,.18),transparent 25%,transparent 75%,rgba(0,0,0,.2));
 }
 
+body.theme-freelancer-protocol::before{
+    background:radial-gradient(circle at center,rgba(255,85,65,.16),rgba(0,0,0,0) 70%);
+}
+
+body.theme-nia-os::before{
+    background:radial-gradient(circle at center,rgba(0,225,255,.18),rgba(0,0,0,0) 70%);
+}
+
+body.theme-dome-shell::before{
+    background:radial-gradient(circle at center,rgba(70,220,255,.15),rgba(0,0,0,0) 70%);
+}
+
+body.theme-laskagomba-mester::before{
+    background:radial-gradient(circle at center,rgba(255,205,92,.16),rgba(0,0,0,0) 70%);
+}
+
 .gateway-screen{position:relative;z-index:3;min-height:100vh;display:grid;place-items:center;text-align:center;padding:2rem;overflow:hidden;contain:layout paint}
 .hero{position:relative;width:100vw;min-height:100vh;transform:translate3d(0,0,0);backface-visibility:hidden}
 
@@ -321,8 +337,13 @@ body::after{
 .planet-gold{right:120px;bottom:50px;width:347px;height:347px;background-image:url("assets/images/planet_gold_transparent.webp")}
 .planet-gold::before{background:radial-gradient(circle,rgba(120,90,30,.09),transparent 75%)}
 
-/* INTERACTIVE PROJECT TOOLTIP */
-:root{--project-accent:rgba(255,205,92,.95);--project-accent-soft:rgba(255,205,92,.20)}
+/* PROJECT ACTIVATION SYSTEM */
+:root{
+    --project-accent:rgba(255,205,92,.95);
+    --project-accent-soft:rgba(255,205,92,.20);
+    --project-accent-deep:rgba(255,205,92,.08);
+    --project-portal:rgba(255,205,92,.20);
+}
 
 .stargate{transition:filter .24s ease,transform .24s ease}
 .stargate.gate-active{filter:brightness(1.10) saturate(1.10)}
@@ -346,6 +367,48 @@ body::after{
 }
 
 .stargate.gate-active .gate-core::before{opacity:.82;filter:blur(12px)}
+
+.stargate.gate-active .gate-core::after{
+    opacity:.38;
+    background:
+        repeating-conic-gradient(
+            from 0deg,
+            var(--project-portal) 0deg,
+            rgba(190,250,255,.010) 7deg,
+            transparent 15deg,
+            transparent 32deg
+        );
+}
+
+.stargate.gate-active .water-glow{
+    background:
+        radial-gradient(circle at 50% 50%,
+            rgba(255,255,255,.070),
+            var(--project-portal) 24%,
+            rgba(0,93,166,.070) 46%,
+            rgba(2,8,18,.38) 84%
+        );
+}
+
+.stargate.gate-active .portal-ripple{
+    opacity:.22;
+    background:
+        repeating-radial-gradient(
+            circle,
+            rgba(255,255,255,.060) 0px,
+            var(--project-portal) 2px,
+            transparent 12px,
+            transparent 34px
+        );
+}
+
+.stargate.gate-pulse-burst .gate-ring{
+    animation:gateBurst .65s ease-out forwards;
+}
+
+.stargate.gate-pulse-burst .gate-core{
+    animation:coreBurst .65s ease-out forwards;
+}
 
 .project-tooltip{
     position:absolute;z-index:9;min-width:260px;max-width:360px;padding:.85rem 1rem;border-radius:18px;
@@ -395,6 +458,8 @@ body::after{
 
 @keyframes gatePulse{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.90;box-shadow:0 0 22px rgba(255,190,75,.82),0 0 62px rgba(255,117,35,.30),0 0 30px rgba(0,190,255,.15),inset 0 0 42px rgba(255,220,130,.42)}50%{transform:translate3d(0,0,0) scale(1.018);opacity:1;box-shadow:0 0 30px rgba(255,205,92,1),0 0 86px rgba(255,117,35,.42),0 0 42px rgba(0,225,255,.22),inset 0 0 52px rgba(255,220,130,.55)}}
 @keyframes gateActivePulse{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.95}50%{transform:translate3d(0,0,0) scale(1.024);opacity:1}}
+@keyframes gateBurst{0%{transform:translate3d(0,0,0) scale(1);box-shadow:0 0 24px rgba(255,190,75,.95),0 0 72px rgba(255,117,35,.36),0 0 32px rgba(0,190,255,.18),inset 0 0 42px rgba(255,220,130,.48)}45%{transform:translate3d(0,0,0) scale(1.035);box-shadow:0 0 42px var(--project-accent),0 0 120px var(--project-accent-soft),0 0 60px rgba(0,225,255,.30),inset 0 0 60px var(--project-accent-soft)}100%{transform:translate3d(0,0,0) scale(1)}}
+@keyframes coreBurst{0%{filter:brightness(1) saturate(1)}45%{filter:brightness(1.18) saturate(1.28)}100%{filter:brightness(1) saturate(1)}}
 @keyframes portalMist{0%{transform:translate3d(0,0,0) rotate(0deg) scale(1);opacity:.52}50%{transform:translate3d(0,0,0) rotate(180deg) scale(1.06);opacity:.72}100%{transform:translate3d(0,0,0) rotate(360deg) scale(1);opacity:.52}}
 @keyframes portalNeedle{from{transform:translate3d(0,0,0) rotate(0deg) scale(1)}to{transform:translate3d(0,0,0) rotate(360deg) scale(1)}}
 @keyframes activationPulse{0%{transform:translate3d(0,0,0) scale(.84);opacity:.72}100%{transform:translate3d(0,0,0) scale(1.18);opacity:0}}

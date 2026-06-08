@@ -538,6 +538,101 @@ body[data-active-project="laskagomba-mester"] .planet-gold{
     filter:blur(18px);opacity:.70;animation:activationPulse .38s ease-out forwards;
 }
 
+
+/* ==========================================
+   PROJECT SIGNAL PANEL - MARK IV
+   Lightweight living gateway UX layer.
+========================================== */
+
+.project-signal-panel{
+    position:absolute;
+    left:50%;
+    bottom:34px;
+    z-index:8;
+    width:min(520px,calc(100vw - 2rem));
+    min-height:118px;
+    transform:translate3d(-50%,0,0);
+    pointer-events:none;
+}
+
+.signal-card{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:.35rem;
+    padding:1rem 1.25rem;
+    border:1px solid rgba(126,238,255,.18);
+    border-radius:20px;
+    background:
+        linear-gradient(180deg,rgba(2,8,20,.72),rgba(0,3,12,.54)),
+        radial-gradient(circle at top,rgba(0,225,255,.08),transparent 65%);
+    box-shadow:
+        0 0 28px rgba(0,225,255,.10),
+        inset 0 0 22px rgba(255,255,255,.030);
+    backdrop-filter:blur(12px);
+    opacity:0;
+    transform:translate3d(0,10px,0) scale(.98);
+    transition:opacity .22s ease,transform .22s ease,border-color .22s ease,box-shadow .22s ease;
+    text-align:center;
+}
+
+.signal-card::before{
+    content:"";
+    position:absolute;
+    left:20px;
+    right:20px;
+    top:0;
+    height:1px;
+    background:linear-gradient(90deg,transparent,var(--project-accent),transparent);
+    opacity:.55;
+}
+
+.signal-kicker{
+    color:#7eeeff;
+    font-size:.66rem;
+    font-weight:800;
+    letter-spacing:.18rem;
+    text-transform:uppercase;
+    text-shadow:0 0 12px rgba(0,225,255,.28);
+}
+
+.signal-card strong{
+    color:#ffe2a1;
+    font-size:clamp(.98rem,1.5vw,1.20rem);
+    letter-spacing:.12rem;
+    text-transform:uppercase;
+    text-shadow:0 0 16px var(--project-accent-soft);
+}
+
+.signal-card p{
+    margin:0 auto;
+    max-width:440px;
+    color:#d9e6f6;
+    font-size:.86rem;
+    line-height:1.45;
+}
+
+body:not([data-active-project]) .signal-default,
+body[data-active-project="freelancer-protocol"] .signal-protocol,
+body[data-active-project="nia-os"] .signal-nia,
+body[data-active-project="dome-shell"] .signal-dome,
+body[data-active-project="laskagomba-mester"] .signal-mushroom{
+    opacity:1;
+    transform:translate3d(0,0,0) scale(1);
+}
+
+body[data-active-project="freelancer-protocol"] .project-signal-panel .signal-protocol,
+body[data-active-project="nia-os"] .project-signal-panel .signal-nia,
+body[data-active-project="dome-shell"] .project-signal-panel .signal-dome,
+body[data-active-project="laskagomba-mester"] .project-signal-panel .signal-mushroom{
+    border-color:var(--project-accent);
+    box-shadow:
+        0 0 32px var(--project-accent-soft),
+        inset 0 0 22px rgba(255,255,255,.04);
+}
+
 .mission-panel{display:none}
 
 .project-section{
@@ -577,6 +672,9 @@ body[data-active-project="laskagomba-mester"] .planet-gold{
 
 /* RESPONSIVE */
 @media(max-width:1050px){
+    .project-signal-panel{bottom:28px;width:min(470px,calc(100vw - 2rem))}
+    .signal-card{min-height:110px;padding:.9rem 1rem}
+
     .hero{min-height:1050px}
     .mission-hud{top:24px;width:min(500px,calc(100vw - 2rem))}
     .stargate{top:35%;width:420px;height:420px}
@@ -591,6 +689,8 @@ body[data-active-project="laskagomba-mester"] .planet-gold{
 }
 
 @media(max-width:680px){
+    .project-signal-panel{display:none}
+
     .constellation-network{display:none}
 
     .project-tooltip{display:none}

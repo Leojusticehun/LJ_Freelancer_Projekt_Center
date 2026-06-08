@@ -357,6 +357,70 @@ body.theme-laskagomba-mester::before{
 .planet-gold::before{background:radial-gradient(circle,rgba(255,205,92,.15),transparent 75%)}
 .planet-gold:hover{filter:brightness(1.08) contrast(1.09) saturate(1.08) drop-shadow(0 0 26px rgba(255,205,92,.30)) drop-shadow(0 0 65px rgba(255,160,55,.14))}
 
+
+
+/* ==========================================
+   SVG CONSTELLATION NETWORK - MARK III.2
+   Precision project connection layer.
+========================================== */
+
+.constellation-network{
+    position:absolute;
+    inset:0;
+    z-index:4;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    opacity:.78;
+    mix-blend-mode:screen;
+}
+
+.constellation-line{
+    stroke-width:.12;
+    stroke-linecap:round;
+    opacity:.14;
+    vector-effect:non-scaling-stroke;
+    filter:drop-shadow(0 0 4px rgba(0,225,255,.22));
+    animation:constellationPulse 9s ease-in-out infinite;
+    transition:opacity .22s ease,stroke-width .22s ease,filter .22s ease;
+}
+
+.protocol-line{
+    stroke:rgba(255,92,72,.72);
+    animation-duration:8s;
+}
+
+.nia-line{
+    stroke:rgba(0,225,255,.72);
+    animation-duration:10s;
+}
+
+.dome-line{
+    stroke:rgba(70,220,255,.65);
+    animation-duration:12s;
+}
+
+.mushroom-line{
+    stroke:rgba(255,205,92,.70);
+    animation-duration:11s;
+}
+
+body[data-active-project] .constellation-line{
+    opacity:.045;
+    filter:drop-shadow(0 0 3px rgba(255,255,255,.10));
+}
+
+body[data-active-project="freelancer-protocol"] .protocol-line,
+body[data-active-project="nia-os"] .nia-line,
+body[data-active-project="dome-shell"] .dome-line,
+body[data-active-project="laskagomba-mester"] .mushroom-line{
+    opacity:.48;
+    stroke-width:.18;
+    filter:
+        drop-shadow(0 0 5px var(--project-accent))
+        drop-shadow(0 0 14px var(--project-accent-soft));
+}
+
 /* PROJECT ACTIVATION SYSTEM */
 :root{
     --project-accent:rgba(255,205,92,.95);
@@ -509,6 +573,7 @@ body[data-active-project="laskagomba-mester"] .planet-gold{
 @keyframes ripple{0%,100%{opacity:.46;transform:translate3d(0,0,0) scale(1)}50%{opacity:.72;transform:translate3d(0,0,0) scale(1.035)}}
 @keyframes horizonFlow{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.16}50%{transform:translate3d(0,0,0) scale(1.045);opacity:.28}}
 @keyframes rippleField{0%,100%{transform:translate3d(0,0,0) scale(.94);opacity:.08}50%{transform:translate3d(0,0,0) scale(1.12);opacity:.18}}
+@keyframes constellationPulse{0%,100%{opacity:.10}50%{opacity:.24}}
 
 /* RESPONSIVE */
 @media(max-width:1050px){
@@ -526,6 +591,8 @@ body[data-active-project="laskagomba-mester"] .planet-gold{
 }
 
 @media(max-width:680px){
+    .constellation-network{display:none}
+
     .project-tooltip{display:none}
     .mission-hud{top:18px;padding:.78rem .85rem;border-radius:16px}
     .mission-hud h1{font-size:1rem;letter-spacing:.16rem}
